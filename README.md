@@ -2,10 +2,7 @@
 ![todo_app.png](img/todo_app.png)
 
 ## Objective
-This is a simple yet functional Todo Application built using Spring Boot and JPA. The app allows users (persons) to
-manage tasks, track completion status, and monitor due dates. Tasks can be assigned to specific users or left
-unassigned. The application automatically records creation and update timestamps for each task. It is designed with a
-clean architecture and follows best practices in Java development.
+We will build a Todo Application using Spring Boot and JPA. The app allows persons to manage tasks, track completion status, and monitor due dates. Tasks can be assigned to specific users or left unassigned.
 
 ### Class Diagram
 
