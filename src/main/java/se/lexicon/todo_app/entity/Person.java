@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Data
-//@Builder // Builder Design Pattern
+@Builder // Builder Design Pattern
 @AllArgsConstructor
 @NoArgsConstructor
 

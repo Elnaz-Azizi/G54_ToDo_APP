@@ -1,17 +1,18 @@
 package se.lexicon.todo_app.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder
+@Builder
+@ToString(exclude = "attachments")
+@EqualsAndHashCode(exclude = "attachments")
 
 @Entity
 @Table(name = "todos")
@@ -39,6 +40,8 @@ public class Todo {
     @JoinColumn(name = "person_id")
     private Person person;
 
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    private List<Attachment> attachments = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -50,5 +53,6 @@ public class Todo {
         this.updatedAt = LocalDateTime.now();
     }
 
+    // add to helper methods to manipulate the list of attachments
 
 }
