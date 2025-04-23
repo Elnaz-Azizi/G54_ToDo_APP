@@ -7,12 +7,12 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "attachments")
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(exclude = "todo")
 @EqualsAndHashCode(exclude = "todo")
-@Builder
 public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +32,20 @@ public class Attachment {
     @ManyToOne
     @JoinColumn(name = "todo_id")
     private Todo todo;
+
+    public Attachment(String fileName, String fileType, byte[] data) {
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.data = data;
+    }
+
+    public void setTodo(Todo todo) {
+        this.todo = todo;
+
+        // Sync the other side if not already present
+        if (todo != null) {
+            todo.getAttachments().add(this);
+        }
+    }
 
 }

@@ -1,15 +1,18 @@
 package se.lexicon.todo_app.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "persons")
 
 @Data
 @Builder // Builder Design Pattern
 @AllArgsConstructor
 @NoArgsConstructor
-
-@Entity
-@Table(name = "persons")
 public class Person {
 
     @Id

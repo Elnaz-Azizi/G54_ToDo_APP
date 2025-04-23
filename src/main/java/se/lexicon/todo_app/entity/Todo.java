@@ -4,18 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "todos")
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString(exclude = "attachments")
 @EqualsAndHashCode(exclude = "attachments")
-
-@Entity
-@Table(name = "todos")
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +40,22 @@ public class Todo {
     private Person person;
 
     @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
-    private List<Attachment> attachments = new ArrayList<>();
+    @Setter(AccessLevel.NONE)
+    private Set<Attachment> attachments = new HashSet<>();
+
+    // Constructor with required fields
+    public Todo(String title, String description, boolean completed, LocalDateTime dueDate) {
+        this.title = title;
+        this.description = description;
+        this.completed = completed;
+        this.dueDate = dueDate;
+    }
+
+    public Todo(String title, String description, boolean completed) {
+        this.title = title;
+        this.description = description;
+        this.completed = completed;
+    }
 
     @PrePersist
     protected void onCreate() {
@@ -53,6 +67,22 @@ public class Todo {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // add to helper methods to manipulate the list of attachments
+    @Transient
+    // transient annotation is used to indicate that a field should not be persisted in the database.
+    public boolean demo;
+
+
+    public void addAttachment(Attachment attachment) {
+        if (attachments == null) {
+            attachments = new HashSet<>();
+        }
+        attachments.add(attachment);
+        attachment.setTodo(this); // sync back-reference
+    }
+
+    public void removeAttachment(Attachment attachment) {
+        attachments.remove(attachment);
+        attachment.setTodo(null); // disconnect both ways
+    }
 
 }
