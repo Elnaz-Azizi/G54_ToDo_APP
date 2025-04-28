@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "persons")
 
@@ -23,4 +25,15 @@ public class Person {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
+    private LocalDate createdAt;
+
+    public Person(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDate.now();
+    }
 }
